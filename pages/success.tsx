@@ -83,7 +83,7 @@ const Success = ({ products }: Props) => {
                 Order #{session_id?.slice(-5)}
               </p>
               <h4 className="text-lg">
-                Thank you {session ? session.user?.name.split(" ")[0] : "Guest"}
+                Thank you {session ? session.user?.name!.split(" ")[0] : "Guest"}
               </h4>
             </div>
           </div>
