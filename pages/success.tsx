@@ -11,10 +11,9 @@ import {
 } from "@heroicons/react/outline";
 import { Button } from "../components";
 import { useMediaQuery } from "react-responsive";
-import Currency from "react-currency-formatter";
 import { GetServerSideProps } from "next";
 import { fetchLineItems } from "../utils/fetchLineItems";
-import { useSession } from 'next-auth/react'
+import { useSession } from "next-auth/react";
 
 type Props = {
   products: StripeProduct[];
@@ -84,8 +83,7 @@ const Success = ({ products }: Props) => {
                 Order #{session_id?.slice(-5)}
               </p>
               <h4 className="text-lg">
-                Thank you {" "}
-                {session ? session.user?.name.split(" ")[0] : "Guest"}
+                Thank you {session ? session.user?.name.split(" ")[0] : "Guest"}
               </h4>
             </div>
           </div>
@@ -151,7 +149,10 @@ const Success = ({ products }: Props) => {
                 </button>
 
                 <p className="text-xl font-medium text-black">
-                  <Currency quantity={subtotal + 20} />
+                  {Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(subtotal + 20)}
                 </p>
               </div>
             </div>
@@ -186,10 +187,10 @@ const Success = ({ products }: Props) => {
 
                       <p className="flex-1">{product.description}</p>
                       <p>
-                        <Currency
-                          quantity={product.price.unit_amount / 100}
-                          currency={product.currency}
-                        />
+                        {Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: product.currency,
+                        }).format(product.price.unit_amount / 100)}
                       </p>
                     </div>
                   ))}
@@ -198,7 +199,10 @@ const Success = ({ products }: Props) => {
                   <div className="flex justify-between text-sm">
                     <p className="text-[gray]">Subtotal</p>
                     <p className="font-medium">
-                      <Currency quantity={subtotal} />
+                      {Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(subtotal)}
                     </p>
                   </div>
 
@@ -210,7 +214,10 @@ const Success = ({ products }: Props) => {
                   <div className="flex justify-between text-sm">
                     <p className="text-[gray]">Shipping</p>
                     <p className="font-medium">
-                      <Currency quantity={20} currency="USD" />
+                      {Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(20)}
                     </p>
                   </div>
                 </div>
@@ -221,7 +228,11 @@ const Success = ({ products }: Props) => {
                     USD{" "}
                     <span className="text-xl font-medium text-black">
                       {" "}
-                      <Currency quantity={subtotal + 20} />{" "}
+
+                      {Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(subtotal + 20)}
                     </span>
                   </p>
                 </div>

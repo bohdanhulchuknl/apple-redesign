@@ -3,9 +3,9 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "../sanity";
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import Currency from "react-currency-formatter";
+
 import toast from "react-hot-toast";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import { removeFromBasket } from "../redux/basketSlice";
 
 type Props = {
@@ -14,19 +14,17 @@ type Props = {
 };
 
 const CheckoutProduct = ({ items, id }: Props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const removeItemFromBasket = () => {
-    dispatch(removeFromBasket({id}));
+    dispatch(removeFromBasket({ id }));
     toast.error(`${items[0].title} removed from basket`, {
-      position:"bottom-center"
-    })
-  }
-
-
+      position: "bottom-center",
+    });
+  };
 
   return (
-    <div className="flex flex-col gap-x-4 border-b border-grey-300 py-5 lg:flex-row lg:items-center">
+    <div className="border-grey-300 flex flex-col gap-x-4 border-b py-5 lg:flex-row lg:items-center">
       <div className="relative h-44 w-44">
         <Image
           src={urlFor(items[0].image[0]).url()}
@@ -53,7 +51,10 @@ const CheckoutProduct = ({ items, id }: Props) => {
 
         <div className="flex flex-col items-end space-y-4">
           <h4 className="text-xl font-semibold lg:text-2xl">
-            <Currency quantity={items.reduce((total, item) => total + item.price, 0)} currency="USD"/>
+            {Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+            }).format(items.reduce((total, item) => total + item.price, 0))}
           </h4>
           <button
             onClick={removeItemFromBasket}

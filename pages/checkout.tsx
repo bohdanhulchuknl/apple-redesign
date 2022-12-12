@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { selectBasketItems, selectBasketTotal } from "../redux/basketSlice";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-import Currency from "react-currency-formatter";
 import Stripe from "stripe";
 import { Button, CheckoutProduct, Header } from "../components";
 import { fetchPostJSON } from "../utils/api-helpers";
@@ -46,10 +45,10 @@ const Checkout = (props: Props) => {
 
     const stripe = await getStripe();
     const { error } = await stripe!.redirectToCheckout({
-      sessionId: checkoutSession.id
-    })
-    console.warn(error.message)
-    setLoading(false)
+      sessionId: checkoutSession.id,
+    });
+    console.warn(error.message);
+    setLoading(false);
   };
 
   return (
@@ -84,7 +83,10 @@ const Checkout = (props: Props) => {
                   <div className="flex justify-between">
                     <p>Subtotal</p>
                     <p>
-                      <Currency quantity={basketTotal} currency="USD" />
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(basketTotal)}
                     </p>
                   </div>
                   <div className="flex justify-between">
@@ -106,7 +108,10 @@ const Checkout = (props: Props) => {
                 <div className="flex justify-between pt-4 text-xl font-semibold">
                   <h4>Total</h4>
                   <h4>
-                    <Currency quantity={basketTotal} currency="USD" />
+                    {Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(basketTotal)}
                   </h4>
                 </div>
               </div>
@@ -138,7 +143,10 @@ const Checkout = (props: Props) => {
                     <h4 className="mb-4 flex flex-col text-xl font-semibold">
                       Pay in full
                       <span>
-                        <Currency quantity={basketTotal} currency="USD" />
+                        {Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(basketTotal)}
                       </span>
                     </h4>
                     <Button
